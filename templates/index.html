@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<style>
+  .axis,
+  .frame {
+    shape-rendering: crispEdges;
+  }
+
+  /*Styling for Lines*/
+  .axis line {
+    stroke: #ddd;
+  }
+
+  /*Styling for path in Line Charts*/
+  .axis path {
+    display: none;
+  }
+
+  /*Styling for Scatter Plot Matrix cell*/
+  .cell text {
+    font-weight: bold;
+    text-transform: capitalize;
+  }
+
+  /*Styling for Scatter Plot Matrix Frames*/
+  .frame {
+    fill: none;
+    stroke: #aaa;
+  }
+
+  .line {
+    fill: none;
+    stroke: #bd9375;
+    stroke-width: 3;
+  }
+
+  /* Style the dots by assigning a fill and stroke */
+  .dot {
+    fill: #003140;
+    stroke: #fff;
+  }
+
+  .bar {
+    fill: rgb(26, 8, 9);
+  }
+  .drop{
+    border: 1px solid black  ;
+    border-radius: 5px;
+    font-size: 20px;
+    background-color: 2px ;
+    width: 20%;
+    padding: 5px;
+  }
+  .heading{
+    margin-left: 25%;
+    font-size: 20px;
+    font-family:"Lucida Sans Unicode";
+    color: black;
+  }
+  .content{
+    margin-left: 35%;
+    font-family:"Lucida Sans Unicode";
+  }
+</style>
+
+<head>
+  <title>112687951--Visualization Lab 2</title>
+</head>
+<h2 id="headingText" style="text-align:leftcorner;color:#003140">
+</h2>
+
+<body style="background-color:#00ccff;">
+  
+  <p class="content" style="text-shadow: 1px 1px black;color:black;font-size: 45px;">  <font face="Comic Sans MS">The Spotify top 500</font> </p>
+  <button  class="content" style="text-align:leftcorner;background-color:#bd9375;border-radius:5px; border: 1px solid black;font-size: 20px;" onclick="elbowPointLocate()">Elbow plot to find optimal K</button>
+  <br>
+
+  <div class="original">
+    <p  class="heading"><b>Original Data</b></p>
+    <select id="original" class="drop content" onChange="selectOriginal()">
+      <option value="None" selected>--Select Plot --</option>
+      <option value="ID001">PCA Scree Plot and INTRINSIC DIMENSIONALITY</option>
+      <option value="ID003">2D PCA Scatter Plot</option>
+      <option value="ID004">2D MDS Euclidean Scatter Plot</option>
+      <option value="ID005">2D MDS Correlation Scatter Plot</option>
+    </select>
+  </div>
+
+
+  <div class="randrad">
+    <p  class="heading"><b>Random Sampling:</b></p>
+    <select id="random" class="drop content" onChange="selectRandomSample()">
+      <option value="None" selected>--Select Plot --</option>
+      <option value="1">PCA Scree Plot and INTRINSIC DIMENSIONALITY</option>
+      <option value="3">2D PCA Scatter Plot</option>
+      <option value="4">2D MDS Euclidean Scatter Plot</option>
+      <option value="5">2D MDS Correlation Scatter Plot</option>
+    </select>
+  </div>
+
+
+
+  <div class="stratrad">
+    <p  class="heading"><b>Stratified Sampling</b></p>
+    <select id="stratified" class="drop content" onChange="selectStratifiedSample()">
+      <option value="None" selected>--Select Plot --</option>
+      <option value="ID001">PCA Scree Plot and INTRINSIC DIMENSIONALITY</option>
+      <option value="ID003">2D PCA Scatter Plot</option>
+      <option value="ID004">2D MDS Euclidean Scatter Plot</option>
+      <option value="ID005">2D MDS Correlation Scatter Plot</option>
+    </select>
+  </div>
+
+  <div>
+    <p class="heading"><b>Scatter Plot Matrix of  3 highest PCA loaded attributes</b></p>
+    <select id="scatterplot" class="drop content" onChange="selectScatterPlot()">
+      <option value="None" selected>--Select Plot --</option>
+      <option value="ID001">Original Data</option>
+      <option value="ID002">Random Sampling</option>
+      <option value="ID003">Stratified Sampling</option>
+    </select>
+  </div>
+
+
+
+  <svg width="800" height="500"></svg>
+  <script src="http://d3js.org/d3.v4.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.11.3/jquery-ui.min.js"></script>
+  <script type="text/javascript" src="./static/js/app.js"></script>
+
+  <script>
+    function selectStratifiedSample() {
+      var val = document.getElementById('stratified')
+      val = val.value;
+      if (val == "ID001") {
+        drawScreePCAStratified();
+      }
+      if (val == "ID002") {
+        generateScreePlotForMDSEucStratified();
+      }
+      if (val == "ID003") {
+        ScatterPlotPCAStratified();
+      }
+      if (val == "ID004") {
+        ScatterPlotMDSStratified();
+      }
+      if (val == "ID005") {
+        ScatterPlotMDSCorrStratified();
+      }
+    }
+    function selectRandomSample() {
+      var val = document
+      val = val.getElementById('random')
+      val = val.value;
+      if (val == "1") {
+        createPlotScree();
+       
+      }
+      if (val == "2") {
+        generateScreePlotForMDSEuc();
+      }
+      if (val == "3") {
+        console.log('Here')
+        ScatterPlotPCA()
+      }
+      if (val == "4") {
+        ScatterPlotMDS()
+      }
+      if (val == "5") {
+        ScatterPlotMDSCorr()
+      }
+    }
+    function selectOriginal() {
+      var val = document.getElementById('original').value;
+      if (val == "ID001") {
+        drawScreeOriginal();
+      }
+      if (val == "ID003") {
+        drawScatterOriginal()
+      }
+      if (val == "ID004") {
+        drawMDSOriginal()
+      }
+      if (val == "ID005") {
+        drawMDSCorrOriginal()
+      }
+    }
+    function selectScatterPlot() {
+      val = document.getElementById('scatterplot').value;
+      if (val == "ID001") {
+        originalDataMatrix()
+      }
+      if (val == "ID002") {
+        RandomSamplingMatrix()
+      }
+      if (val == "ID003") {
+        stratifiedScatterPlotMatrix()
+      }
+    }
+
+  </script>
+</body>
+
+</html>

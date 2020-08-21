@@ -1,0 +1,15 @@
+
+Install Flask,pip,kneed,pandas(1.0.1), scikitlearn,numpy 
+
+1)Go inside the project folder 
+
+cd Visualization_MiniProject_2
+
+2)Run the below command and start the backend
+
+python app.py
+
+3)The server runs on URL. Open the browser go to below URL
+
+http://127.0.0.1:5000/
+
